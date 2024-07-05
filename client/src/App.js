@@ -1,11 +1,11 @@
 import React, { Fragment } from "react";
-import InputTodo from "./components/InputTodo"
+import TodoApp from "./components/timer/TodoApp";
 import './App.css';
 
 function App() {
   return (
     <Fragment>
-      <InputTodo />
+      <TodoApp />
     </Fragment>
   )
 }
