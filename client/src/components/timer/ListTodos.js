@@ -1,29 +1,13 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment } from "react";
+import EditTodo from "./EditTodo";
 
-const ListTodos = () => {
-
-  const [todos, setTodos] = useState([]);
-
-  const getTodos = async () => {
-    try {
-      const response = await fetch("http://localhost:5000/todos");
-      const todosArray = await response.json();
-      setTodos(todosArray);
-    } catch (err) {
-      console.error(err.message);
-    }
-  };
-
-  useEffect(() => {
-    getTodos();
-  }, []);
-
+const ListTodos = ({ todos, deleteTodo, refreshTodos }) => {
   return (
     <Fragment>
-      <table class="table">
+      <table className="table">
         <thead>
           <tr>
-            <th>Todo</th>
+            <th>Description</th>
             <th></th>
             <th></th>
           </tr>
@@ -33,18 +17,16 @@ const ListTodos = () => {
             todos.map(todo => (
               <tr key={todo.todo_id}>
                 <td>{todo.description}</td>
-                <td><button>Edit</button></td>
-                <td>
-                  <button>Delete</button>
-                </td>
+                <td><EditTodo todo={todo} refreshTodos={refreshTodos} /></td>
+                <td><button className="btn btn-danger" onClick={() => 
+                  deleteTodo(todo.todo_id)}>Delete</button></td>
               </tr>
             ))
           }
         </tbody>
       </table>
     </Fragment>
-
-  )
-}
+  );
+};
 
 export default ListTodos;
