@@ -1,9 +1,9 @@
 import React, { Fragment, useState } from "react";
 
-const InputTodo = () => {
+const InputTodo = ({ refreshTodos }) => {
   const [description, setDescription] = useState("");
-  
-  const onSubmitForm = async e => {
+
+  const onSubmitForm = async (e) => {
     e.preventDefault();
     try {
       const body = { description };
@@ -12,18 +12,19 @@ const InputTodo = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body)
       });
-      console.log(response)
+      console.log(response);
+      refreshTodos();
     } catch (err) {
       console.error(err.message);
     }
-  } 
+  }
   return (
     <Fragment>
       <h1 className="text-center my-5">Input Todo</h1>
       <form className="d-flex p-5" onSubmit={onSubmitForm}>
-        <input 
-          type="text" 
-          placeholder="Add todo" 
+        <input
+          type="text"
+          placeholder="Add todo"
           className="form-control mx-2"
           value={description}
           onChange={e => setDescription(e.target.value)}
