@@ -8,6 +8,27 @@ app.use(cors());
 app.use(express.json());
 
 //ROUTES
+
+//create study session
+app.post("/test", async (req, res) => {
+  try { 
+    const { duration, start_time, end_time } = req.body;
+    
+    const newSession = await pool.query(
+      "INSERT INTO test (duration, start_time, end_time) VALUES ($1, $2, $3) RETURNING *", 
+      [duration, start_time, end_time]);
+    res.json(newSession.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+  }
+})
+
+//get study session by hour
+
+//get study session by day
+
+//get study session by week
+
 //create todo
 app.post("/todos", async (req, res) => {
   try {
