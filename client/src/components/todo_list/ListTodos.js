@@ -7,7 +7,7 @@ const ListTodos = ({ todos, deleteTodo, refreshTodos }) => {
       <table className="table">
         <thead>
           <tr>
-            <th>Description</th>
+            <th>Tasks</th>
             <th></th>
             <th></th>
           </tr>

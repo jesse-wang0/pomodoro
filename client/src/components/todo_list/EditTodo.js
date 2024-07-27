@@ -22,7 +22,7 @@ const EditTodo = ({ todo, refreshTodos }) => {
       <button type="button" className="btn btn-warning" data-bs-toggle="modal" 
         data-bs-target={`#id${todo.todo_id}`}> Edit </button>
       
-      <div className="modal" id={`id${todo.todo_id}`} onClick={() => setDescription(todo.description)}>
+      <div className="modal fade" id={`id${todo.todo_id}`} onClick={() => setDescription(todo.description)}>
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">

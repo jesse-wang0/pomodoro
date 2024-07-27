@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from "react";
+import './Todo.css';
 
 const InputTodo = ({ refreshTodos }) => {
   const [description, setDescription] = useState("");
@@ -20,8 +21,8 @@ const InputTodo = ({ refreshTodos }) => {
   }
   return (
     <Fragment>
-      <h1 className="text-center my-5">Input Todo</h1>
-      <form className="d-flex p-5" onSubmit={onSubmitForm}>
+      <h2 className="text-center my-5">To-do List</h2>
+      <form className="input-box d-flex mb-4" onSubmit={onSubmitForm}>
         <input
           type="text"
           placeholder="Add todo"

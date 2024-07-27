@@ -1,6 +1,7 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import InputTodo from "./InputTodo";
 import ListTodos from "./ListTodos";
+import './Todo.css';
 
 function TodoApp() {
     const [todos, setTodos] = useState([]);
@@ -32,10 +33,10 @@ function TodoApp() {
     }, []);
   
     return (
-      <Fragment>
+      <div className="todo-container">
         <InputTodo refreshTodos={getTodos} />
         <ListTodos todos={todos} deleteTodo={deleteTodo} refreshTodos={getTodos}/>
-      </Fragment>
+      </div>
     );
   }
   
