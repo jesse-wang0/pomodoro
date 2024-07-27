@@ -1,43 +1,70 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect , useRef } from "react";
+import './Timer.css';
+import '../../App.css';
 
-function Timer() {
+function Timer({ initialMinutes, onTimerComplete }) {
   const [isRunning, setIsRunning] = useState(false);
-  const [timeMin, setTimeMin] = useState(25);
+  const [timeMin, setTimeMin] = useState(initialMinutes);
   const [timeSec, setTimeSec] = useState(0);
+  const endTimeRef = useRef(null);
+
+  const updateTimer = (newMinutes) => {
+    setTimeMin(newMinutes);
+    setTimeSec(0);
+  };
 
   useEffect(() => {
+    updateTimer(initialMinutes);
+  }, [initialMinutes]);
+  
+  useEffect(() => {
     if (isRunning) {
+      const endTime = endTimeRef.current || Date.now() + (timeMin * 60 + timeSec) * 1000;
+      endTimeRef.current = endTime;
+
       const intervalPom = setInterval(() => {
-        if (timeSec > 0) {
-          setTimeSec((timeSec) => timeSec - 1);
-        }
-        if (timeSec === 0 && timeMin > 0) {
-          setTimeMin((timeMin) => timeMin - 1);
-          setTimeSec(59);
-        }
-        if (timeMin === 0 && timeSec === 0) {
+        const remainingTime = endTime - Date.now();
+        if (remainingTime > 0) {
+          const minutes = Math.floor((remainingTime / 1000 / 60) % 60);
+          const seconds = Math.floor((remainingTime / 1000) % 60);
+          setTimeMin(minutes);
+          setTimeSec(seconds);
+        } else {
           setIsRunning(false);
+          setTimeMin(initialMinutes);
+          setTimeSec(0);
+          endTimeRef.current = null;
+          onTimerComplete();
         }
-      }, 1000)
-      return () => clearInterval(intervalPom)
+      }, 100);
+      return () => clearInterval(intervalPom);
     }
-  }, [isRunning, timeMin, timeSec])
+  }, [isRunning, timeMin, timeSec, initialMinutes, onTimerComplete]);
 
   const startTimer = () => {
     setIsRunning(true);
-  }
+  };
 
   const stopTimer = () => {
     setIsRunning(false);
-  }
+    endTimeRef.current = null;
+  };
+
+  const resetTimer = () => {
+    setIsRunning(false);
+    setTimeMin(initialMinutes);
+    setTimeSec(0);
+    endTimeRef.current = null;
+  };
 
   return (
     <Fragment>
-      <h2>Timer</h2>
-      <h2>{timeMin}:{timeSec < 10 ? "0" + timeSec : timeSec}</h2>
-      <button onClick={startTimer}>Start</button>
-      <button onClick={stopTimer}>Pause</button>
-      <button>Reset</button>
+      <h2 id="clock" className="text-center my-5">{timeMin}:{timeSec < 10 ? "0" + timeSec : timeSec}</h2>
+      <div className="timer-btn-container">
+        <button className="btn btn-success d-flex justify-content-center shadow-sm" onClick={startTimer}>Start</button>
+        <button className="btn btn-danger d-flex justify-content-center shadow-sm" onClick={stopTimer}>Pause</button>
+        <button className="btn btn-warning d-flex justify-content-center shadow-sm" onClick={resetTimer}>Reset</button>
+      </div>
     </Fragment>
   );
 }
