@@ -4,3 +4,7 @@
     flex-direction: column;
     align-items: center;
 }
+
+.input-box {
+    width: -webkit-fill-available;
+}

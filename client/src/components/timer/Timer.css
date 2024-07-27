@@ -1,7 +1,7 @@
 .timer-app-container {
     margin: auto;
     height: fit-content;
-    width: 30%;
+    width: 75%;
     margin-top: 50px;
     margin-bottom: 50px;
     padding-bottom: 50px;
@@ -14,7 +14,8 @@
 .timer-btn-container {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-evenly;
+    
 }
 
 #myTab {
@@ -29,4 +30,20 @@
 #clock {
     font-size: 100px;
     font-weight: bold;
+}
+
+.settings-btn {
+    display: table;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#length-options {
+    display:flex;
+    flex-direction: row;
+}
+
+#sound-options {
+    display:flex;
+    flex-direction: row;
 }
