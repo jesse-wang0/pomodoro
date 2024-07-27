@@ -11,23 +11,50 @@ app.use(express.json());
 
 //create study session
 app.post("/test", async (req, res) => {
-  try { 
-    const { duration, start_time, end_time } = req.body;
-    
+  try {
+    const { duration, end_time } = req.body;
     const newSession = await pool.query(
-      "INSERT INTO test (duration, start_time, end_time) VALUES ($1, $2, $3) RETURNING *", 
-      [duration, start_time, end_time]);
+      "INSERT INTO test (duration, end_time) VALUES ($1, $2) RETURNING *",
+      [duration, end_time]);
     res.json(newSession.rows[0]);
   } catch (err) {
     console.error(err.message);
   }
 })
 
-//get study session by hour
+//get study session 
 
-//get study session by day
-
-//get study session by week
+//get study session today, this week, this month relative to today.
+app.get("/test/:period", async (req, res) => {
+  const currentDate = new Date(Date.now());
+  try {
+    let query = '';
+    let values = [currentDate];
+    const { period } = req.params;
+    switch (period) {
+      case 'day':
+        query = 'SELECT * FROM test WHERE EXTRACT(DAY FROM end_time::date) = EXTRACT(DAY FROM $1::date) \
+                                          AND EXTRACT(MONTH FROM end_time::date) = EXTRACT(MONTH FROM $1::date) \
+                                          AND EXTRACT(YEAR FROM end_time::date) = EXTRACT(YEAR FROM $1::date)';
+        break;
+      case 'week':
+        // STILL BROKEN
+        query = "SELECT * FROM test WHERE end_time >= DATE_TRUNC('week', $1::date) \
+                                      AND end_time < DATE_TRUNC('week', $1::date) + interval '1 week';";
+        break;
+      case 'month':
+        query = 'SELECT * FROM test WHERE EXTRACT(MONTH FROM end_time::date) = EXTRACT(MONTH FROM $1::date) \
+                                          AND EXTRACT(YEAR FROM end_time::date) = EXTRACT(YEAR FROM $1::date)';
+        break;
+      default:
+        return res.status(400).json({ error: `Invalid period parameter`});
+    }
+    const sessions = await pool.query(query, values);
+    res.json(sessions.rows);
+  } catch (err) {
+    console.error(err.message);
+  }
+})
 
 //create todo
 app.post("/todos", async (req, res) => {
