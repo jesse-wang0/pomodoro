@@ -17,6 +17,7 @@ Key Features:
 - Create a new pull request in GitHub.
  
 ## Gallery
+![image](https://github.com/user-attachments/assets/54754ae0-3d22-4010-80e8-40a902c92376)
 
 ## Credit/Acknowledgment
 Jesse Wang
