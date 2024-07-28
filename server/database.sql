@@ -8,6 +8,5 @@ CREATE TABLE todo(
 CREATE TABLE study_sessions(
     session_id SERIAL PRIMARY KEY,
     duration INTEGER NOT NULL,
-    start_time TIMESTAMP NOT NULL,
-    end_time TIMESTAMP NOT NULL
+    end_time TIMESTAMPZ NOT NULL
 );
