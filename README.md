@@ -3,8 +3,10 @@ A study timer app which has an integrated to-do list. Provides statistics of pas
 
 ## Description
 
-Key Features:
-
+Key Features: 
+- Adjustable timers
+- To-do list
+- Study session tracking with graphs and heatmaps (similar to github commit graph)
 
 ## Usage
 
