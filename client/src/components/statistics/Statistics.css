@@ -1,0 +1,33 @@
+.header-info {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stat-text {
+    color: #72f44a;
+}
+
+.title {
+    text-align: -webkit-center;
+    color: #51ba00;
+}
+
+.graph {
+    width: 65vw;
+    height: 15vw;
+    margin: auto;
+}
+
+.heatmap {
+    width: 65vw;
+    height: 10vw;
+    margin: auto;
+}
