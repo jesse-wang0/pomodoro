@@ -4,12 +4,11 @@ import TimerApp from "../components/timer/TimerApp";
 import Header from "../components/Header";
 import '../App.css';
 
-
 function Home() {
   return (
     <Fragment>
       <Header />
-      <div class="main-app">
+      <div className="main-app">
         <TimerApp />
         <TodoApp />
       </div>
