@@ -7,8 +7,7 @@ const pool = require("./db");
 app.use(cors());
 app.use(express.json());
 
-//ROUTES
-
+//STUDY SESSION ROUTES
 //create study session
 app.post("/test", async (req, res) => {
   try {
@@ -21,8 +20,6 @@ app.post("/test", async (req, res) => {
     console.error(err.message);
   }
 })
-
-//get study session 
 
 //get study session today, this week, this month relative to today.
 app.get("/test/:period", async (req, res) => {
@@ -38,16 +35,18 @@ app.get("/test/:period", async (req, res) => {
                                           AND EXTRACT(YEAR FROM end_time::date) = EXTRACT(YEAR FROM $1::date)';
         break;
       case 'week':
-        // STILL BROKEN
         query = "SELECT * FROM test WHERE end_time >= DATE_TRUNC('week', $1::date) \
-                                      AND end_time < DATE_TRUNC('week', $1::date) + interval '1 week';";
+                                          AND end_time < DATE_TRUNC('week', $1::date) + interval '1 week';";
         break;
       case 'month':
         query = 'SELECT * FROM test WHERE EXTRACT(MONTH FROM end_time::date) = EXTRACT(MONTH FROM $1::date) \
                                           AND EXTRACT(YEAR FROM end_time::date) = EXTRACT(YEAR FROM $1::date)';
         break;
+      case 'year':
+        query = 'SELECT * FROM test WHERE EXTRACT(YEAR FROM end_time::date) = EXTRACT(YEAR FROM $1::date)';
+        break;
       default:
-        return res.status(400).json({ error: `Invalid period parameter`});
+        return res.status(400).json({ error: `Invalid period parameter` });
     }
     const sessions = await pool.query(query, values);
     res.json(sessions.rows);
@@ -56,6 +55,7 @@ app.get("/test/:period", async (req, res) => {
   }
 })
 
+//TODO ROUTES
 //create todo
 app.post("/todos", async (req, res) => {
   try {
