@@ -18,6 +18,7 @@ Key Features:
  
 ## Gallery
 ![image](https://github.com/user-attachments/assets/54754ae0-3d22-4010-80e8-40a902c92376)
+![image](https://github.com/user-attachments/assets/dc7b59be-2b39-4b80-96ae-569465c49ed3)
 
 ## Credit/Acknowledgment
 Jesse Wang
