@@ -16,7 +16,7 @@ function BarChart({ sessions }) {
     datasets: [{
       label: 'Hours Completed',
       data: Object.values(sessions),
-      backgroundColor: ['rgba(255, 99, 132, 0.4)'],
+      backgroundColor: ['rgba(0, 180, 10, 0.4)'],
       borderColor: ['rgb(0,0,0,0.5)'],
       borderWidth: 1
     }]
