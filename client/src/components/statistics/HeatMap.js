@@ -9,46 +9,35 @@ import 'chartjs-adapter-date-fns';
 ChartJS.register(...registerables);
 ChartJS.register(MatrixController, MatrixElement);
 
-function isoDayOfWeek(dt) {
-  let wd = dt.getDay();
-  wd = (wd + 6) % 7 + 1;
-  return '' + wd;
-}
-
-function generateData() {
-  const d = new Date();
-  const today = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0, 0, 0, 0);
-  const data = [];
-  const end = today;
-  let dt = new Date(new Date().setDate(end.getDate() - 365));
-  while (dt <= end) {
-    const iso = dt.toISOString().substring(0, 10);
-    data.push({
-      x: iso,
-      y: isoDayOfWeek(dt),
-      d: iso,
-      v: Math.random() * 50
-    });
-    dt = new Date(dt.setDate(dt.getDate() + 1));
+function HeatMap({ sessions }) {
+  if (!sessions || Object.keys(sessions).length === 0) {
+    console.log('Loading');
+    return;
   }
-  return data;
-}
 
-function HeatMap({ yearData }) {
   const data = {
     datasets: [{
       label: 'Pomodoros',
-      data: generateData(),
+      data: sessions,
       backgroundColor(c) {
         const value = c.dataset.data[c.dataIndex].v;
-        const alpha = (10 + value) / 60;
-        return `rgba(0, 200, 0, ${alpha})`;
+      const maxValue = Math.max(...sessions.map(session => session.v));
+      const normalizedValue = maxValue ? value / maxValue : 0;
+      const colors = [
+        'rgba(0, 180, 0, 0.3)',
+        'rgba(0, 180, 0, 0.5)',
+        'rgba(0, 180, 0, 0.7)',
+        'rgba(0, 180, 0, 0.9)'
+      ];
+      if (normalizedValue === 0) {
+        return 'rgba(211, 211, 211, 0.5)';
+      }
+      let opacityIndex = Math.floor(normalizedValue * (colors.length - 1));
+      return colors[opacityIndex];
       },
-      borderColor: 'green',
+      borderColor: 'white',
       borderWidth: 1,
-      borderRadius: 2,
-      hoverBackgroundColor: 'rgba(200, 200, 200,0.2)',
-      hoverBorderColor: 'rgba(200, 0, 200,1)',
+      borderRadius: 1,
       width(c) {
         const a = c.chart.chartArea || {};
         return (a.right - a.left) / 53 - 1;
