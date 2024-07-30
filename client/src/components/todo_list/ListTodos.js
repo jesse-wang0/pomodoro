@@ -18,7 +18,7 @@ const ListTodos = ({ todos, deleteTodo, refreshTodos }) => {
               <tr key={todo.todo_id}>
                 <td>{todo.description}</td>
                 <td><EditTodo todo={todo} refreshTodos={refreshTodos} /></td>
-                <td><button className="btn btn-danger" onClick={() => 
+                <td><button className="btn btn-danger" onClick={() =>
                   deleteTodo(todo.todo_id)}>Delete</button></td>
               </tr>
             ))
